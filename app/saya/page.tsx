@@ -50,8 +50,14 @@ async function KontenSaya() {
     <>
       <p className="mb-4 text-sm font-medium text-slate-600">
         {namaCookie}
-        {kelasCookie ? ` · ${kelasCookie}` : ""} · {daftarSaya.length} ekskul diikuti
+        {kelasCookie ? ` · ${kelasCookie}` : ""} · {daftarSaya.length} dari maksimal 2 ekskul diikuti
       </p>
+
+      {daftarSaya.length >= 2 && (
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+          Kamu sudah mencapai batas maksimal 2 ekskul. Batalkan salah satu jika ingin mendaftar ke ekskul lain.
+        </div>
+      )}
 
       {daftarSaya.length === 0 ? (
         <p className="text-slate-500">

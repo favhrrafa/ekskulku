@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Daftar Ekskul" };
 export default async function HalamanEkskul({
   searchParams,
 }: {
-  searchParams: Promise<{ kategori?: string; hari?: string }>;
+  searchParams: Promise<{ kategori?: string; hari?: string; sisa?: string }>;
 }) {
   const sp = await searchParams;
 
@@ -18,6 +18,7 @@ export default async function HalamanEkskul({
     ? (sp.kategori as Kategori)
     : null;
   const hariFilter = DAFTAR_HARI.includes(sp.hari ?? "") ? sp.hari! : null;
+  const sisaFilter = sp.sisa === "1" || sp.sisa === "true";
 
   const [semuaEkskul, jumlahPendaftar] = await Promise.all([
     ambilSemuaEkskul(),
@@ -28,7 +29,9 @@ export default async function HalamanEkskul({
   const hasil = semuaEkskul.filter((e) => {
     const cocokKategori = !kategoriFilter || e.kategori === kategoriFilter;
     const cocokHari = !hariFilter || e.hari === hariFilter;
-    return cocokKategori && cocokHari;
+    const terisi = jumlahPendaftar[e.id] ?? 0;
+    const cocokSisa = !sisaFilter || terisi < e.kuota;
+    return cocokKategori && cocokHari && cocokSisa;
   });
 
   return (

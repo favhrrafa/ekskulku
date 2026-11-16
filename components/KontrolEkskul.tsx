@@ -37,6 +37,16 @@ export default function KontrolEkskul() {
           <option key={h} value={h}>{h}</option>
         ))}
       </select>
+
+      <label className="flex items-center gap-2 cursor-pointer text-sm text-slate-600 bg-white border rounded px-3 py-2 select-none hover:bg-slate-50 transition-colors">
+        <input
+          type="checkbox"
+          checked={sp.get("sisa") === "1"}
+          onChange={(e) => ubahFilter("sisa", e.target.checked ? "1" : "")}
+          className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 h-4 w-4"
+        />
+        <span>Masih ada tempat</span>
+      </label>
     </div>
   );
 }

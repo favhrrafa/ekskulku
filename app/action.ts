@@ -64,6 +64,21 @@ export async function daftarEkskul(
     };
   }
 
+  // Maksimal 2 ekskul per murid
+  const ekskulDiikuti = pendaftar.filter(
+    (p) =>
+      p.nama.trim().toLowerCase() === nama.toLowerCase() &&
+      p.kelas.trim().toLowerCase() === kelas.toLowerCase(),
+  );
+  if (ekskulDiikuti.length >= 2) {
+    return {
+      berhasil: false,
+      pesan: `Pendaftaran ditolak: Satu murid hanya boleh mengikuti maksimal 2 ekskul (${nama} sudah terdaftar di ${ekskulDiikuti.length} ekskul).`,
+      galat: {},
+      isian,
+    };
+  }
+
   const jumlahAnggota = pendaftar.filter((p) => p.ekskulId === target.id).length;
   if (jumlahAnggota >= target.kuota) {
     return {
